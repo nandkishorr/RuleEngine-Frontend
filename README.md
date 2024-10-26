@@ -49,10 +49,11 @@ The Rule Engine Frontend is designed to provide a user-friendly interface for ma
 
 ### Installation
 ```
-1. **Clone the Repository**:
+1. Clone the Repository:
 
    git clone https://github.com/yourusername/RuleEngine-Frontend.git
-   cd RuleEngine-Frontend/ruleengine
+
+   cd RuleEngine-Frontend/rule_engine
 
    npm install
 
