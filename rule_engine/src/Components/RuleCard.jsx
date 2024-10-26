@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { TextField } from '@mui/material';
 import { useState } from "react";
 import axios from "axios";
+import toast from 'react-hot-toast';
 
 const style = {
     position: 'absolute',
@@ -74,6 +75,60 @@ function RuleCard({ rule }) {
         }
     };
 
+    const editRule = async () => {
+        if (!newRule) {
+            toast.error('Please enter the rule string.');
+            setError('Please enter the rule string.');
+            return;
+        }
+        setError(''); 
+        try {
+            const url = import.meta.env.VITE_APP_BACKEND_URL;
+            const response = await axios.patch(`${url}/rules/${rule?._id}`, {
+                rule: newRule,
+            });
+            if (response.status === 200) {
+
+                toast.success('Rule updated successfully.');
+                console.log('Rule updated:', response.data);
+                window.location.reload();
+            } else {
+                setError(`Error: ${response.data.message}`);
+            }
+        } catch (err) {
+            if (err.response) {
+                toast.error('Failed to update rule. Please try again later.');
+                setError(`Server Error: ${err.response.data.message}`);
+            } else if (err.request) {
+                setError('Network Error: No response from server.');
+            } else {
+                setError(`Error: ${err.message}`);
+            }
+        }
+    }
+    const deleteRule = async () => {
+        try {
+            const url = import.meta.env.VITE_APP_BACKEND_URL;
+            const response = await axios.delete(`${url}/rules/${rule?._id}`);
+            if (response.status === 200) {
+                toast.success('Rule deleted successfully.');
+                console.log('Rule deleted:', response.data);
+                window.location.reload();
+            } else {
+                setError(`Error: ${response.data.message}`);
+            }
+        } catch (err) {
+            if (err.response) {
+                toast.error('Failed to delete rule. Please try again later.');
+                setError(`Server Error: ${err.response.data.message}`);
+            } else if (err.request) {
+                setError('Network Error: No response from server.');
+            } else {
+                setError(`Error: ${err.message}`);
+            }
+        }
+    }
+
     return (
         <div className="h-fit border-2 rounded-xl mt-5 p-3">
             <div className="flex flex-row justify-between p-5">
@@ -86,6 +141,11 @@ function RuleCard({ rule }) {
                 {rule?.updatedAt && <div className="text-sm text-zinc-900 text-opacity-40">Last Updated: {rule?.updatedAt}</div>}
             </div>
             <div className="flex justify-end">
+                <button  onClick={()=>{
+                    deleteRule();
+                }}className='flex justify-center mr-2 ml-6 hover:bg-red-900 hover:bg-opacity-15 w-20 px-6 py-0.5 rounded-lg text-sm border-2 text-red-700 border-red-700 border-opacity-20'>
+                    <div className='flex'>Delete</div>
+                </button>
                 <button onClick={() => setOpenEvaluate(true)} className='flex justify-center mr-2 ml-6 hover:bg-zinc-900 hover:bg-opacity-15 w-40 px-6 py-0.5 rounded-lg text-sm border-2 '>
                     <div className='flex'>Evaluate Rule</div>
                 </button>
@@ -111,7 +171,7 @@ function RuleCard({ rule }) {
                     />
                     <Button
                         sx={{ width: '100px', float: 'right' }}
-                        // onClick={editRule}
+                        onClick={editRule}
                         variant="contained"
                     >
                         Add

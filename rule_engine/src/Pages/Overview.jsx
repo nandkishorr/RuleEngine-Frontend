@@ -46,6 +46,7 @@ function Overview() {
         toast.success('Rule added successfully.');
         setNewRule(''); 
         handleClose(); 
+        window.location.reload();
       } catch (error) {
         toast.error('Failed to add rule. Please try again later.');
         console.error('Error adding rule:', error);
@@ -56,8 +57,6 @@ function Overview() {
         try {
           const url = import.meta.env.VITE_APP_BACKEND_URL;
           const response = await axios.get(`${url}/rules`); 
-      
-          // Check for specific response statuses
           if (response.status === 200) {
             const rulesData = response.data;
             console.log('Rules Data:', rulesData);
@@ -84,9 +83,16 @@ function Overview() {
     <div className="w-full h-full p-5 ">
         <p className="text-3xl mt-5 font-bold text-gray-700">All Created Rules</p>
         <div className="mt-5">
-           {Array.isArray(rules) && rules.map((rule,index) => {
-            return <RuleCard key={index} rule={rule} />;
-           })}
+        <div className="mt-5 ">
+    {Array.isArray(rules) && rules.length > 0 ? (
+        rules.map((rule, index) => (
+            <RuleCard key={index} rule={rule} /> 
+        ))
+    ) : (
+        <p className="flex text-xl font-semibold text-gray-700 justify-center ">No rules are present!. Add a new rule.</p>
+    )}
+</div>
+
         </div>
         <div className="fixed top-[600px] right-10" onClick={()=>{
             setOpen(true)

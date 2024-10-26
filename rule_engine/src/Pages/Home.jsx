@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Overview from "./Overview";
 import Combine from "./Combine";
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
 
 function Home() {
   const [data, setData] = useState(<Overview/>);
@@ -20,7 +20,7 @@ function Home() {
       }className='mr-2 ml-6 hover-bg-zinc-900 hover-bg-opacity-5 w-40 px-6 py-0.5 rounded-lg text-sm mt-4'><div className='flex'><img src='./create.svg' alt='createprofile' className='mr-1'/>Combine Rule</div></button>
     </div>
     <div className="w-full ">
-     <Toaster position="top-right"/>
+      <Toaster position="top-right" />
       {data}
     </div>
   </div>
