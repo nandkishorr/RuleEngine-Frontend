@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { TextField } from '@mui/material';
 import { useState } from "react";
 import axios from "axios";
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 
 const style = {
     position: 'absolute',
@@ -89,7 +89,7 @@ function RuleCard({ rule }) {
             });
             if (response.status === 200) {
 
-                toast.success('Rule updated successfully.');
+                toast.success('Rule updated successfully.',{duration: 1000});
                 console.log('Rule updated:', response.data);
                 window.location.reload();
             } else {
@@ -111,7 +111,7 @@ function RuleCard({ rule }) {
             const url = import.meta.env.VITE_APP_BACKEND_URL;
             const response = await axios.delete(`${url}/rules/${rule?._id}`);
             if (response.status === 200) {
-                toast.success('Rule deleted successfully.');
+                toast.success('Rule deleted successfully.',{duration: 1000});
                 console.log('Rule deleted:', response.data);
                 window.location.reload();
             } else {
@@ -130,6 +130,7 @@ function RuleCard({ rule }) {
     }
 
     return (
+        
         <div className="h-fit border-2 rounded-xl mt-5 p-3">
             <div className="flex flex-row justify-between p-5">
                 <div className="text-xl font-bold text-gray-700">Rule Name</div>

@@ -59,6 +59,11 @@ function Overview() {
           const response = await axios.get(`${url}/rules`); 
           if (response.status === 200) {
             const rulesData = response.data;
+            if (response.data.length==0){
+                toast.error('No rules are present!. Add a new rule.');
+                return;
+            }
+            toast.success('Rules fetched successfully');
             console.log('Rules Data:', rulesData);
             if (Array.isArray(rulesData)) {
               setRules(rulesData);
