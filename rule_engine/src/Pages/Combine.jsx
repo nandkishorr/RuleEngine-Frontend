@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Button from '@mui/material/Button';
-
+import toast from 'react-hot-toast';
 function Combine() {
   const [rules, setRules] = useState([]);      
   const [rule1, setRule1] = useState('');      
@@ -25,6 +25,7 @@ function Combine() {
           console.log('Rules Data:', rulesData);
           // Ensure rulesData is an array before setting
           if (Array.isArray(rulesData)) {
+            toast.success('Rules fetched successfully');
             setRules(rulesData);
           } else {
             console.error('Fetched data is not an array:', rulesData);
@@ -35,6 +36,7 @@ function Combine() {
           setError(`Error fetching rules: Status ${response.status}`);
         }
       } catch (error) {
+        toast.error('Failed to fetch rules. Please try again later.');
         console.error('Error fetching rules:', error);
         setError('Failed to fetch rules. Please try again later.');
       }
@@ -48,6 +50,7 @@ function Combine() {
     console.log('Rule 2:', rule2);
     console.log('Operator:', operator);
     if (!rule1 || !rule2 || !operator) {
+      toast.error('Please select both rules and an operator.');
       setError('Please select both rules and an operator.');
       return;
     }
@@ -61,8 +64,10 @@ function Combine() {
         type: operator
       });
       console.log('Combine successful:', response.data);
-      alert('Rules combined successfully');
+      toast.success('Rules combined successfully.');
+
     } catch (err) {
+      toast.error('Failed to combine rules. Please try again later.');
       setError('Failed to combine rules. Please try again later.');
       console.error(err);
     }

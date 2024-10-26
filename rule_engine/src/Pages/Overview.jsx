@@ -7,6 +7,7 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import { TextField } from '@mui/material';
 import { useEffect, useState } from "react";
+import toast from 'react-hot-toast';
 import axios from "axios";
 const style = {
     position: 'absolute',
@@ -22,7 +23,7 @@ const style = {
   };
 function Overview() {
     const [open, setOpen] = useState(false);
-    const [rules, setRules] = useState('');
+    const [rules, setRules] = useState([]);
     const[error, setError] = useState('');
     const [newrule, setNewRule] = useState('');
     const handleClose = () => {
@@ -32,7 +33,8 @@ function Overview() {
       try {
         console.log('New rule:', typeof(newrule));
         if (!newrule) {
-          setError('Please select the  rule.');
+          toast.error('Please enter the rule string.');
+          setError('Please enter the  rule.');
           return;
         }
         setError(''); 
@@ -41,9 +43,11 @@ function Overview() {
           rule: newrule,
         });
         console.log('New rule added:', response.data);
+        toast.success('Rule added successfully.');
         setNewRule(''); 
         handleClose(); 
       } catch (error) {
+        toast.error('Failed to add rule. Please try again later.');
         console.error('Error adding rule:', error);
       }
     };
@@ -68,6 +72,7 @@ function Overview() {
             setError(`Error fetching rules: Status ${response.status}`);
           }
         } catch (error) {
+          toast.error('Failed to fetch rules. Please try again later.');
           console.error('Error fetching rules:', error);
           setError('Failed to fetch rules. Please try again later.');
         }

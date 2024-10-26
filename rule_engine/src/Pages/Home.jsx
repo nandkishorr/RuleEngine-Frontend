@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Overview from "./Overview";
-import Create from "./Combine";
+import Combine from "./Combine";
+import { Toaster } from 'react-hot-toast';
 
 function Home() {
   const [data, setData] = useState(<Overview/>);
@@ -14,11 +15,12 @@ function Home() {
       }}  className='mr-2 ml-6 hover-bg-zinc-900 hover-bg-opacity-5 w-40 px-6 py-0.5 rounded-lg text-sm'><div className='flex'><img src='./overview.svg' alt='overviewicon' className='mr-1'/>Overview</div></button>
       <button onClick={
         ()=>{
-          setData(<Create/>)
+          setData(<Combine/>)
         }
       }className='mr-2 ml-6 hover-bg-zinc-900 hover-bg-opacity-5 w-40 px-6 py-0.5 rounded-lg text-sm mt-4'><div className='flex'><img src='./create.svg' alt='createprofile' className='mr-1'/>Combine Rule</div></button>
     </div>
     <div className="w-full ">
+     <Toaster position="top-right"/>
       {data}
     </div>
   </div>
